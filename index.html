@@ -3,83 +3,485 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>Figurinha Diferente - 3 Iguais</title>
+<title>Figurinha Diferente - Encontre o Detalhe</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:system-ui;background:#0f1220;color:#fff;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:16px}
-.wrap{width:100%;max-width:400px}header{display:flex;justify-content:space-between;margin-bottom:10px}
-.pill{background:#1a1f35;padding:6px 12px;border-radius:999px;font-size:14px;border:1px solid #2a315c}
-.board{background:#1a1f35;border:1px solid #2a315c;border-radius:20px;padding:18px}
-.top{display:flex;justify-content:center;margin-bottom:14px}.bottom{display:flex;gap:14px}
-.sticker{flex:1;aspect-ratio:1;background:#0b1020;border:2px solid #2a315c;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:68px;cursor:pointer}
-.sticker span{display:inline-block;transition:.15s}
-.sticker.correct{border-color:#7cf5c7}.sticker.wrong{border-color:#ff6b6b;animation:shake .3s}
-@keyframes shake{0%,100%{transform:translate(0)}25%{transform:translate(-3px)}75%{transform:translate(3px)}}
-.timer{height:7px;background:#0b1020;border-radius:99px;margin:10px 0;overflow:hidden;border:1px solid #2a315c}
-.bar{height:100%;width:100%;background:#7cf5c7;transition:width .1s linear}
-.meta{display:flex;justify-content:space-between;font-size:12px;opacity:.8}
-.footer{font-size:11px;text-align:center;margin-top:10px;opacity:.6}
-.overlay{position:fixed;inset:0;background:#000c;display:none;place-items:center}
-.modal{background:#1a1f35;padding:20px;border-radius:16px;text-align:center;border:1px solid #2a315c}
-button{background:#7cf5c7;border:0;padding:10px 16px;border-radius:10px;font-weight:700;margin-top:10px}
+* {
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, 'Segoe UI', 'Roboto', sans-serif;
+  background: linear-gradient(145deg, #0b0f1c 0%, #0f1220 100%);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 420px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.pill {
+  background: #1a1f35cc;
+  backdrop-filter: blur(4px);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #2a315c;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  letter-spacing: 0.3px;
+}
+
+.board {
+  background: #1a1f35;
+  border: 1px solid #2a315c;
+  border-radius: 28px;
+  padding: 20px 16px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+}
+
+.top, .bottom {
+  display: flex;
+  gap: 16px;
+}
+
+.top { margin-bottom: 18px; }
+.bottom { gap: 16px; }
+
+.sticker {
+  flex: 1;
+  aspect-ratio: 1 / 1;
+  background: #0b1020;
+  border: 3px solid #2a315c;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 82px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.sticker span {
+  display: inline-block;
+  transition: transform 0.05s linear, opacity 0.05s linear;
+  will-change: transform, opacity;
+}
+
+.sticker:active {
+  transform: scale(0.97);
+}
+
+.sticker.correct {
+  border-color: #7cf5c7;
+  box-shadow: 0 0 0 2px #7cf5c780;
+}
+
+.sticker.wrong {
+  border-color: #ff6b6b;
+  animation: shake 0.2s ease-in-out;
+  background: #ff6b6b20;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.timer {
+  height: 8px;
+  background: #0b1020;
+  border-radius: 99px;
+  margin: 16px 0 8px 0;
+  overflow: hidden;
+  border: 1px solid #2a315c;
+}
+
+.bar {
+  height: 100%;
+  width: 100%;
+  background: #7cf5c7;
+  transition: width 0.05s linear;
+  border-radius: 99px;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+
+.footer {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 14px;
+  opacity: 0.7;
+  background: #0b1020aa;
+  padding: 6px;
+  border-radius: 40px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: #000000cc;
+  backdrop-filter: blur(4px);
+  display: none;
+  place-items: center;
+  z-index: 100;
+}
+
+.modal {
+  background: #1e243e;
+  padding: 28px 24px;
+  border-radius: 32px;
+  text-align: center;
+  border: 1px solid #3a4270;
+  max-width: 280px;
+  width: 80%;
+}
+
+.modal h3 {
+  margin: 0 0 8px 0;
+  font-size: 28px;
+  color: #7cf5c7;
+}
+
+.modal p {
+  margin: 4px 0 12px;
+  font-size: 16px;
+}
+
+button {
+  background: #7cf5c7;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 40px;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 12px;
+  cursor: pointer;
+  color: #0b1020;
+  transition: 0.1s;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+#vidas {
+  font-size: 15px;
+  letter-spacing: 2px;
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-<header><div class="pill">Fase <b id="fase">1</b></div><div class="pill" id="vidas">❤️❤️❤️</div><div class="pill">⭐<b id="pts">0</b></div></header>
-<div class="board">
-<div class="meta"><span>3 iguais, ache o detalhe</span><span id="tempo">20s</span></div>
-<div class="timer"><div class="bar" id="bar"></div></div>
-<div class="top"><div class="sticker" data-i="0"><span></span></div></div>
-<div class="bottom"><div class="sticker" data-i="1"><span></span></div><div class="sticker" data-i="2"><span></span></div></div>
+  <header>
+    <div class="pill">✨ Fase <b id="fase">1</b></div>
+    <div class="pill" id="vidas">❤️❤️❤️</div>
+    <div class="pill">⭐ <b id="pts">0</b></div>
+  </header>
+  <div class="board">
+    <div class="meta">
+      <span>🔍 3 iguais, 1 diferente</span>
+      <span id="tempo">20s</span>
+    </div>
+    <div class="timer"><div class="bar" id="bar"></div></div>
+    <div class="top"><div class="sticker" data-i="0"><span></span></div></div>
+    <div class="bottom"><div class="sticker" data-i="1"><span></span></div><div class="sticker" data-i="2"><span></span></div></div>
+  </div>
+  <div class="footer" id="info">✨ toque na figurinha diferente</div>
 </div>
-<div class="footer" id="info">Ciclo 1 • diferenças visíveis</div>
-</div>
-<div class="overlay" id="ov"><div class="modal"><h3 id="t"></h3><p id="m"></p><button id="bt">OK</button></div></div>
+<div class="overlay" id="ov"><div class="modal"><h3 id="t"></h3><p id="m"></p><button id="bt">JOGAR NOVAMENTE</button></div></div>
+
 <script>
-const emojis=['🐶','🍎','⚽','🚗','🌻','🎸','🍕','🐱','🦋','🚀','🐢','🍩','🎲','🌙','🐸','📷','🎈','🧩','🍉','🦊'];
-let fase=1,pts=0,vidas=3,pen=0,timer,idxDif=0,lock=false;
-const $f=document.getElementById('fase'),$p=document.getElementById('pts'),$v=document.getElementById('vidas'),$t=document.getElementById('tempo'),$b=document.getElementById('bar'),$info=document.getElementById('info');
-const sticks=[...document.querySelectorAll('.sticker')];
+// Emojis variados e divertidos
+const emojis = ['🐶','🐱','🍕','🚀','🌈','🎈','🐸','🦄','🍩','⚡','🐧','🍦','🐟','⭐','🎵','🧸','🌸','🍒','🐝','🌊'];
 
-function ciclo(f){return Math.floor((f-1)/20)} // 0,1,2...
-function intensidade(f){const c=ciclo(f);return Math.max(0.2,1/(c+1))} // nunca zera
+let fase = 1;
+let pontos = 0;
+let vidas = 3;
+let penalidade = 0;       // segundos extras perdidos por erro
+let timerInterval = null;
+let indiceDiferente = 0;
+let bloqueado = false;    // impede clique durante animação
 
-function detalhe(f){
- const inten=intensidade(f);
- const tipos=['left','menor','espelho','giro','opaco'];
- const tipo=tipos[f%5];
- // valores diminuem com o ciclo
- const left=Math.max(2,8*inten); // px
- const scale=Math.max(0.96,1-0.06*inten);
- const giro=Math.max(1.5,6*inten); // deg
- const opac=Math.max(0.88,1-0.1*inten);
- if(tipo==='left') return `translateX(-${left}px)`;
- if(tipo==='menor') return `scale(${scale})`;
- if(tipo==='espelho') return `scaleX(-1) scale(${0.99})`; // espelha
- if(tipo==='giro') return `rotate(${giro}deg)`;
- return `opacity(${opac})`;
+// DOM elements
+const elFase = document.getElementById('fase');
+const elPontos = document.getElementById('pts');
+const elVidas = document.getElementById('vidas');
+const elTempo = document.getElementById('tempo');
+const elBarra = document.getElementById('bar');
+const elInfo = document.getElementById('info');
+const stickers = [...document.querySelectorAll('.sticker')];
+const overlay = document.getElementById('ov');
+const modalTitulo = document.getElementById('t');
+const modalMsg = document.getElementById('m');
+const btnReiniciar = document.getElementById('bt');
+
+// ========== LÓGICA DE DIFERENÇA MAIS VISÍVEL ==========
+// A dificuldade cresce conforme o ciclo, mas as diferenças SEMPRE serão perceptíveis.
+// Ciclo 1 (fases 1-20): diferenças bem claras
+// Ciclo 2 (21-40): médias
+// Ciclo 3 (41-60): mais sutis, mas ainda identificáveis
+// Ciclo 4+ : difícil, porém justo
+
+function getCiclo(f) {
+  return Math.floor((f - 1) / 20);
 }
 
-function tempo(f){return Math.max(8,20-Math.floor((f-1)*0.35))}
-
-function iniciar(){
- lock=false;$f.textContent=fase;$p.textContent=pts;$v.textContent='❤️'.repeat(vidas)+'🤍'.repeat(3-vidas);
- const c=ciclo(fase)+1;$info.textContent=`Ciclo ${c} • ${c===1?'fácil':c===2?'médio':c===3?'difícil':'insano'}`;
- const base=emojis[(fase-1)%emojis.length]; idxDif=Math.floor(Math.random()*3);
- const tf=detalhe(fase);
- sticks.forEach((s,i)=>{const sp=s.querySelector('span');s.className='sticker';sp.textContent=base;sp.style.transform='';sp.style.opacity='1';if(i===idxDif){sp.style.transform=tf; if(tf.includes('opacity'))sp.style.opacity=tf.match(/[\d.]+/)[0]}});
- const tb=Math.max(5,tempo(fase)-pen);let rest=tb;$t.textContent=tb+'s';$b.style.width='100%';
- clearInterval(timer);const ini=Date.now();
- timer=setInterval(()=>{rest=Math.max(0,tb-(Date.now()-ini)/1000);$t.textContent=Math.ceil(rest)+'s';$b.style.width=rest/tb*100+'%';if(rest<=0){clearInterval(timer);erro('Tempo')}},100);
+function getIntensidade(f) {
+  const ciclo = getCiclo(f);
+  // intensidade diminui gradativamente: 1.0 → 0.7 → 0.5 → 0.4
+  if (ciclo === 0) return 1.0;
+  if (ciclo === 1) return 0.75;
+  if (ciclo === 2) return 0.55;
+  return 0.4;
 }
 
-function acerto(s){if(lock)return;lock=true;clearInterval(timer);s.classList.add('correct');pts+=10;pen=0;setTimeout(()=>{fase++;iniciar()},400)}
-function erro(msg){if(lock)return;lock=true;clearInterval(timer);vidas--;sticks[idxDif].classList.add('correct');sticks.forEach((x,i)=>i!==idxDif&&x.classList.add('wrong'));pen+=2;setTimeout(()=>{if(vidas<=0){document.getElementById('t').textContent='Game Over';document.getElementById('m').textContent=`${msg} na fase ${fase}. Pontos: ${pts}`;document.getElementById('ov').style.display='grid'}else{iniciar()}},600)}
+// Estilos de diferença com valores ampliados para serem bem visíveis
+function aplicarDiferenca(faseAtual) {
+  const intens = getIntensidade(faseAtual);
+  const tipoIndex = (faseAtual - 1) % 5;
+  // tipos variados
+  // 0: deslocamento horizontal
+  // 1: escala reduzida
+  // 2: espelhamento + leve rotação
+  // 3: rotação acentuada
+  // 4: opacidade + leve desfoque simulado com escala?
+  
+  // Valores base (máximo para ciclo fácil)
+  let deslocamento = Math.floor(16 * intens);    // px (máx 16px)
+  let escala = 0.85 + (1 - intens) * 0.12;      // varia entre 0.85 ~ 0.97
+  let rotacao = 12 * intens;                     // graus (máx 12°)
+  let opacidade = 0.7 + (1 - intens) * 0.2;      // 0.7 ~ 0.9
+  
+  // garantir limites mínimos pra não sumir a diferença
+  deslocamento = Math.max(6, deslocamento);
+  escala = Math.min(0.96, Math.max(0.80, escala));
+  rotacao = Math.max(4, rotacao);
+  opacidade = Math.min(0.92, Math.max(0.65, opacidade));
+  
+  switch(tipoIndex) {
+    case 0: // deslocamento horizontal (esquerda ou direita)
+      // alterna sinal a cada fase pra não ficar previsível
+      const sinal = (Math.floor(faseAtual / 3) % 2 === 0) ? -1 : 1;
+      return `translateX(${sinal * deslocamento}px)`;
+    case 1: // escala menor (encolhido)
+      return `scale(${escala})`;
+    case 2: // espelho + leve torção (bem visível)
+      return `scaleX(-1) scale(0.96) rotate(${rotacao * 0.7}deg)`;
+    case 3: // rotação pura (destaca bem)
+      return `rotate(${rotacao}deg)`;
+    case 4: // opacidade + pequeno deslocamento (sutil mas perceptível)
+      const deslocLeve = deslocamento * 0.5;
+      return `translateX(${deslocLeve}px) opacity(${opacidade})`;
+    default:
+      return `translateX(-12px)`;
+  }
+}
 
-sticks.forEach((s,i)=>s.onclick=()=>i===idxDif?acerto(s):erro('Errou'));
-document.getElementById('bt').onclick=()=>{document.getElementById('ov').style.display='none';if(vidas<=0){fase=1;pts=0;vidas=3;pen=0}iniciar()};
+// Tempo base por fase (diminui com avanço, mas nunca menos que 7s)
+function tempoBase(faseAtual) {
+  let t = 22 - Math.floor((faseAtual - 1) * 0.3);
+  t = Math.max(7, Math.min(22, t));
+  return t - penalidade;
+}
 
-iniciar();
+// Inicializar rodada
+function iniciarRodada() {
+  bloqueado = false;
+  elFase.textContent = fase;
+  elPontos.textContent = pontos;
+  elVidas.textContent = '❤️'.repeat(vidas) + '🤍'.repeat(3 - vidas);
+  
+  const cicloAtual = getCiclo(fase) + 1;
+  let dificuldadeTexto = '';
+  if (cicloAtual === 1) dificuldadeTexto = '🌱 fácil';
+  else if (cicloAtual === 2) dificuldadeTexto = '⚡ médio';
+  else if (cicloAtual === 3) dificuldadeTexto = '🔥 difícil';
+  else dificuldadeTexto = '🌀 insano';
+  elInfo.textContent = `🔎 ciclo ${cicloAtual} • ${dificuldadeTexto} • toque na diferente`;
+  
+  // Escolher emoji base da fase (ciclo pelos emojis)
+  const emojiBase = emojis[(fase - 1) % emojis.length];
+  // Escolher aleatoriamente qual sticker será o diferente (0,1,2)
+  indiceDiferente = Math.floor(Math.random() * 3);
+  
+  // Obter transformação para a diferença
+  const estiloDif = aplicarDiferenca(fase);
+  
+  // Resetar todos os stickers
+  stickers.forEach((sticker, i) => {
+    const span = sticker.querySelector('span');
+    sticker.classList.remove('correct', 'wrong');
+    span.textContent = emojiBase;
+    span.style.transform = '';
+    span.style.opacity = '';
+    // remover qualquer estilo inline residual
+    if (span.hasAttribute('style')) {
+      span.removeAttribute('style');
+    }
+  });
+  
+  // Aplicar diferença no sticker escolhido
+  const stickerDif = stickers[indiceDiferente];
+  const spanDif = stickerDif.querySelector('span');
+  
+  // verificar se o estilo contém opacidade separada (caso tipo 4)
+  if (estiloDif.includes('opacity')) {
+    const match = estiloDif.match(/opacity\(([\d.]+)\)/);
+    if (match) {
+      const opVal = parseFloat(match[1]);
+      spanDif.style.opacity = opVal;
+      // remover a parte opacity da string para não conflitar
+      let transformOnly = estiloDif.replace(/opacity\([\d.]+\)/, '').trim();
+      if (transformOnly === '') transformOnly = 'translateX(0)';
+      spanDif.style.transform = transformOnly;
+    } else {
+      spanDif.style.transform = estiloDif;
+    }
+  } else {
+    spanDif.style.transform = estiloDif;
+    spanDif.style.opacity = '1';
+  }
+  
+  // Configurar temporizador
+  const tempoLimite = Math.max(5, tempoBase(fase));
+  let tempoRestante = tempoLimite;
+  elTempo.textContent = `${tempoRestante}s`;
+  elBarra.style.width = '100%';
+  
+  if (timerInterval) clearInterval(timerInterval);
+  const inicio = Date.now();
+  
+  timerInterval = setInterval(() => {
+    if (bloqueado) return; // se já clicou, não atualiza mais
+    const decorrido = (Date.now() - inicio) / 1000;
+    let rest = tempoLimite - decorrido;
+    if (rest <= 0) {
+      clearInterval(timerInterval);
+      if (!bloqueado) {
+        erroTempo("Tempo esgotado!");
+      }
+    } else {
+      const percent = (rest / tempoLimite) * 100;
+      elBarra.style.width = `${percent}%`;
+      elTempo.textContent = `${Math.ceil(rest)}s`;
+    }
+  }, 60);
+}
+
+// AÇÃO DE ACERTO
+function acertou(sticker) {
+  if (bloqueado) return;
+  bloqueado = true;
+  clearInterval(timerInterval);
+  
+  sticker.classList.add('correct');
+  pontos += 10;
+  penalidade = Math.max(0, penalidade - 1); // reduz penalidade ao acertar
+  elPontos.textContent = pontos;
+  
+  // feedback sonoro visual (sem áudio, apenas classe)
+  setTimeout(() => {
+    fase++;
+    iniciarRodada();
+  }, 360);
+}
+
+// AÇÃO DE ERRO (comum ou tempo)
+function erroMotivo(motivo) {
+  if (bloqueado) return;
+  bloqueado = true;
+  clearInterval(timerInterval);
+  
+  vidas--;
+  penalidade += 2; // cada erro aumenta penalidade de tempo
+  
+  // destacar qual era a correta e as erradas
+  stickers.forEach((st, idx) => {
+    if (idx === indiceDiferente) {
+      st.classList.add('correct');
+    } else {
+      st.classList.add('wrong');
+    }
+  });
+  
+  // atualizar visual de vidas
+  elVidas.textContent = '❤️'.repeat(vidas) + '🤍'.repeat(3 - vidas);
+  
+  if (vidas <= 0) {
+    // GAME OVER
+    setTimeout(() => {
+      modalTitulo.textContent = '💀 GAME OVER 💀';
+      modalMsg.textContent = `${motivo} na fase ${fase}. Pontuação final: ${pontos} ⭐`;
+      overlay.style.display = 'grid';
+    }, 400);
+    return;
+  }
+  
+  // Se ainda tem vidas, recomeça a fase atual com penalidade
+  setTimeout(() => {
+    iniciarRodada();
+  }, 650);
+}
+
+function erroTempo(msg) {
+  erroMotivo(msg);
+}
+
+// Eventos dos stickers
+stickers.forEach((sticker, indice) => {
+  sticker.addEventListener('click', () => {
+    if (bloqueado) return;
+    if (indice === indiceDiferente) {
+      acertou(sticker);
+    } else {
+      erroMotivo('Você errou!');
+    }
+  });
+});
+
+// Reiniciar jogo completo (após game over)
+btnReiniciar.addEventListener('click', () => {
+  overlay.style.display = 'none';
+  // reset completo
+  fase = 1;
+  pontos = 0;
+  vidas = 3;
+  penalidade = 0;
+  bloqueado = false;
+  if (timerInterval) clearInterval(timerInterval);
+  iniciarRodada();
+});
+
+// Iniciar jogo pela primeira vez
+iniciarRodada();
 </script>
 </body>
 </html>
