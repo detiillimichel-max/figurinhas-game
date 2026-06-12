@@ -32,7 +32,7 @@ Ao completar as 20 fases, o jogo volta para a fase 1 trocando todas as figurinha
 - Mostradas como corações no topo. Servem para "comprar" nova tentativa com menos tempo.
 
 ## Tecnologias
-- Apenas `index.html` único, HTML + CSS + JS puro, responsivo.
+- Apenas `index.html` único, HTML + CSS + JS puro, responsivo detiillimichel-max.github.io/figurinhas-game/
 - 
 © 2026 Michel Detilli.
 Todos os direitos reservados. 
