@@ -2,486 +2,526 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>Figurinha Diferente - Encontre o Detalhe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Encontre a Figurinha Diferente - Jogo Infantil</title>
 <style>
-* {
-  box-sizing: border-box;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
+  * {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
 
-body {
-  margin: 0;
-  font-family: system-ui, 'Segoe UI', 'Roboto', sans-serif;
-  background: linear-gradient(145deg, #0b0f1c 0%, #0f1220 100%);
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 16px;
-}
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e2a3a, #0f1724);
+    font-family: 'Segoe UI', 'Comic Neue', system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+  }
 
-.wrap {
-  width: 100%;
-  max-width: 420px;
-}
+  .game-container {
+    width: 100%;
+    max-width: 500px;
+    background: rgba(10, 20, 30, 0.6);
+    border-radius: 64px;
+    padding: 16px;
+    backdrop-filter: blur(2px);
+  }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  gap: 8px;
-}
+  .info-panel {
+    display: flex;
+    justify-content: space-between;
+    background: #1e2f3c;
+    padding: 12px 20px;
+    border-radius: 60px;
+    margin-bottom: 20px;
+    border: 2px solid #ffb347;
+    box-shadow: 0 6px 0 #7a3e0f;
+  }
 
-.pill {
-  background: #1a1f35cc;
-  backdrop-filter: blur(4px);
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 500;
-  border: 1px solid #2a315c;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  letter-spacing: 0.3px;
-}
+  .info-card {
+    background: #0f1a24;
+    padding: 6px 16px;
+    border-radius: 40px;
+    color: #ffdd99;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: inset 0 1px 2px #ffffff30, 0 2px 4px #00000040;
+  }
 
-.board {
-  background: #1a1f35;
-  border: 1px solid #2a315c;
-  border-radius: 28px;
-  padding: 20px 16px;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.3);
-}
+  .info-card span:first-child {
+    font-size: 1.3rem;
+  }
 
-.top, .bottom {
-  display: flex;
-  gap: 16px;
-}
+  .board {
+    background: #2a3f4e;
+    border-radius: 48px;
+    padding: 24px 20px;
+    border: 3px solid #ffb347;
+    box-shadow: 0 12px 0 #7a3e0f;
+  }
 
-.top { margin-bottom: 18px; }
-.bottom { gap: 16px; }
+  .sticker-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
 
-.sticker {
-  flex: 1;
-  aspect-ratio: 1 / 1;
-  background: #0b1020;
-  border: 3px solid #2a315c;
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 82px;
-  cursor: pointer;
-  transition: all 0.1s ease;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
+  .top-row {
+    margin-bottom: 24px;
+  }
 
-.sticker span {
-  display: inline-block;
-  transition: transform 0.05s linear, opacity 0.05s linear;
-  will-change: transform, opacity;
-}
+  .sticker {
+    flex: 1;
+    aspect-ratio: 1 / 1;
+    background: #fef7e0;
+    border-radius: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 90px;
+    cursor: pointer;
+    transition: all 0.08s linear;
+    border: 4px solid #ffcf9a;
+    box-shadow: 0 8px 0 #aa7744;
+  }
 
-.sticker:active {
-  transform: scale(0.97);
-}
+  .sticker:active {
+    transform: scale(0.96);
+    box-shadow: 0 3px 0 #aa7744;
+  }
 
-.sticker.correct {
-  border-color: #7cf5c7;
-  box-shadow: 0 0 0 2px #7cf5c780;
-}
+  .sticker span {
+    display: inline-block;
+    transition: all 0.05s ease;
+  }
 
-.sticker.wrong {
-  border-color: #ff6b6b;
-  animation: shake 0.2s ease-in-out;
-  background: #ff6b6b20;
-}
+  /* feedback visual */
+  .sticker.correct {
+    border-color: #8effb2;
+    box-shadow: 0 0 0 4px #8effb2, 0 6px 0 #2c6e3a;
+    background: #e0ffe8;
+  }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-}
+  .sticker.wrong {
+    border-color: #ff9e8f;
+    box-shadow: 0 0 0 4px #ff9e8f, 0 6px 0 #a13e2a;
+    background: #ffe0db;
+    animation: shakeW 0.2s ease-in-out;
+  }
 
-.timer {
-  height: 8px;
-  background: #0b1020;
-  border-radius: 99px;
-  margin: 16px 0 8px 0;
-  overflow: hidden;
-  border: 1px solid #2a315c;
-}
+  @keyframes shakeW {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-7px); }
+    75% { transform: translateX(7px); }
+  }
 
-.bar {
-  height: 100%;
-  width: 100%;
-  background: #7cf5c7;
-  transition: width 0.05s linear;
-  border-radius: 99px;
-}
+  .timer-section {
+    margin-top: 20px;
+    background: #0f1a24;
+    border-radius: 40px;
+    padding: 8px 16px;
+  }
 
-.meta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  font-weight: 500;
-  opacity: 0.8;
-  margin-bottom: 6px;
-}
+  .timer-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffd966;
+    margin-bottom: 6px;
+  }
 
-.footer {
-  font-size: 12px;
-  text-align: center;
-  margin-top: 14px;
-  opacity: 0.7;
-  background: #0b1020aa;
-  padding: 6px;
-  border-radius: 40px;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-}
+  .timer-bar-bg {
+    background: #2d3e4b;
+    height: 14px;
+    border-radius: 30px;
+    overflow: hidden;
+    border: 1px solid #ffb347;
+  }
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: #000000cc;
-  backdrop-filter: blur(4px);
-  display: none;
-  place-items: center;
-  z-index: 100;
-}
+  .timer-fill {
+    width: 100%;
+    height: 100%;
+    background: #ffb347;
+    border-radius: 30px;
+    transition: width 0.05s linear;
+  }
 
-.modal {
-  background: #1e243e;
-  padding: 28px 24px;
-  border-radius: 32px;
-  text-align: center;
-  border: 1px solid #3a4270;
-  max-width: 280px;
-  width: 80%;
-}
+  .footer-hint {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    background: #ffe6b3;
+    display: inline-block;
+    width: auto;
+    padding: 6px 18px;
+    border-radius: 60px;
+    color: #a55117;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-.modal h3 {
-  margin: 0 0 8px 0;
-  font-size: 28px;
-  color: #7cf5c7;
-}
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: #000000bb;
+    backdrop-filter: blur(5px);
+    display: none;
+    place-items: center;
+    z-index: 200;
+  }
 
-.modal p {
-  margin: 4px 0 12px;
-  font-size: 16px;
-}
+  .modal {
+    background: #fffaec;
+    padding: 30px 20px;
+    border-radius: 56px;
+    text-align: center;
+    max-width: 280px;
+    width: 80%;
+    border: 4px solid #ffb347;
+    box-shadow: 0 15px 0 #aa7744;
+  }
 
-button {
-  background: #7cf5c7;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 40px;
-  font-weight: bold;
-  font-size: 16px;
-  margin-top: 12px;
-  cursor: pointer;
-  color: #0b1020;
-  transition: 0.1s;
-}
+  .modal h3 {
+    font-size: 2rem;
+    margin: 0 0 8px;
+    color: #d4520c;
+  }
 
-button:active {
-  transform: scale(0.96);
-}
+  .modal p {
+    font-size: 1.2rem;
+    color: #2f4858;
+    font-weight: bold;
+  }
 
-#vidas {
-  font-size: 15px;
-  letter-spacing: 2px;
-}
+  .modal button {
+    background: #ffb347;
+    border: none;
+    padding: 12px 28px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 40px;
+    margin-top: 12px;
+    cursor: pointer;
+    color: #2d1f00;
+    transition: 0.05s linear;
+    box-shadow: 0 5px 0 #a1530a;
+  }
+
+  .modal button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #a1530a;
+  }
+
+  @media (max-width: 450px) {
+    .sticker { font-size: 65px; }
+    .info-card { font-size: 1rem; padding: 4px 12px; }
+    .board { padding: 16px; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="pill">✨ Fase <b id="fase">1</b></div>
-    <div class="pill" id="vidas">❤️❤️❤️</div>
-    <div class="pill">⭐ <b id="pts">0</b></div>
-  </header>
-  <div class="board">
-    <div class="meta">
-      <span>🔍 3 iguais, 1 diferente</span>
-      <span id="tempo">20s</span>
-    </div>
-    <div class="timer"><div class="bar" id="bar"></div></div>
-    <div class="top"><div class="sticker" data-i="0"><span></span></div></div>
-    <div class="bottom"><div class="sticker" data-i="1"><span></span></div><div class="sticker" data-i="2"><span></span></div></div>
+<div class="game-container">
+  <div class="info-panel">
+    <div class="info-card"><span>⭐</span> <b id="pontosText">0</b></div>
+    <div class="info-card"><span>❤️</span> <b id="vidasText">3</b></div>
+    <div class="info-card"><span>🌀</span> <b id="faseText">1</b></div>
   </div>
-  <div class="footer" id="info">✨ toque na figurinha diferente</div>
+
+  <div class="board">
+    <div class="sticker-row top-row">
+      <div class="sticker" data-idx="0"><span id="stick0">🐼</span></div>
+    </div>
+    <div class="sticker-row">
+      <div class="sticker" data-idx="1"><span id="stick1">🐼</span></div>
+      <div class="sticker" data-idx="2"><span id="stick2">🐼</span></div>
+    </div>
+
+    <div class="timer-section">
+      <div class="timer-label">
+        <span>⏱️ TEMPO RESTANTE</span>
+        <span id="timerDisplay">00</span>
+      </div>
+      <div class="timer-bar-bg">
+        <div class="timer-fill" id="timerBar"></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-hint" id="dicaNivel">
+    🔍 ENCONTRE A FIGURINHA DIFERENTE! 🔍
+  </div>
 </div>
-<div class="overlay" id="ov"><div class="modal"><h3 id="t"></h3><p id="m"></p><button id="bt">JOGAR NOVAMENTE</button></div></div>
+
+<div class="overlay" id="gameOverlay">
+  <div class="modal">
+    <h3 id="modalTitle">FIM DE JOGO</h3>
+    <p id="modalMessage">Você conseguiu muitos pontos!</p>
+    <button id="restartButton">🔁 JOGAR DE NOVO</button>
+  </div>
+</div>
 
 <script>
-// Emojis variados e divertidos
-const emojis = ['🐶','🐱','🍕','🚀','🌈','🎈','🐸','🦄','🍩','⚡','🐧','🍦','🐟','⭐','🎵','🧸','🌸','🍒','🐝','🌊'];
+  // ======================== LISTA DE EMOJIS DIVERTIDOS ====================
+  const emojis = [
+    '🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯',
+    '🦁', '🐮', '🐷', '🐸', '🐵', '🐔', '🐧', '🐦', '🐴', '🦄',
+    '🐌', '🐝', '🐞', '🦋', '🍎', '🍕', '🚗', '⚽', '🎈', '⭐'
+  ];
 
-let fase = 1;
-let pontos = 0;
-let vidas = 3;
-let penalidade = 0;       // segundos extras perdidos por erro
-let timerInterval = null;
-let indiceDiferente = 0;
-let bloqueado = false;    // impede clique durante animação
+  // Variáveis do jogo
+  let faseAtual = 1;
+  let pontos = 0;
+  let vidas = 3;
+  let penalidadeSegundos = 0;
+  let tempoRestante = 0;
+  let timerIntervalo = null;
+  let indiceDiferente = -1;
+  let jogoBloqueado = false;
 
-// DOM elements
-const elFase = document.getElementById('fase');
-const elPontos = document.getElementById('pts');
-const elVidas = document.getElementById('vidas');
-const elTempo = document.getElementById('tempo');
-const elBarra = document.getElementById('bar');
-const elInfo = document.getElementById('info');
-const stickers = [...document.querySelectorAll('.sticker')];
-const overlay = document.getElementById('ov');
-const modalTitulo = document.getElementById('t');
-const modalMsg = document.getElementById('m');
-const btnReiniciar = document.getElementById('bt');
+  // Elementos DOM
+  const faseEl = document.getElementById('faseText');
+  const pontosEl = document.getElementById('pontosText');
+  const vidasEl = document.getElementById('vidasText');
+  const timerDisplay = document.getElementById('timerDisplay');
+  const timerBar = document.getElementById('timerBar');
+  const dicaEl = document.getElementById('dicaNivel');
+  const sticksElements = [
+    document.getElementById('stick0'),
+    document.getElementById('stick1'),
+    document.getElementById('stick2')
+  ];
+  const stickersDivs = document.querySelectorAll('.sticker');
 
-// ========== LÓGICA DE DIFERENÇA MAIS VISÍVEL ==========
-// A dificuldade cresce conforme o ciclo, mas as diferenças SEMPRE serão perceptíveis.
-// Ciclo 1 (fases 1-20): diferenças bem claras
-// Ciclo 2 (21-40): médias
-// Ciclo 3 (41-60): mais sutis, mas ainda identificáveis
-// Ciclo 4+ : difícil, porém justo
+  // ========== FUNÇÃO QUE CRIA UMA DIFERENÇA BEM VISÍVEL PARA CRIANÇAS ==========
+  // NUNCA será muito sutil. Valores exagerados para garantir percepção imediata.
+  function gerarEstiloDiferente(fase) {
+    // Dificuldade aumenta bem devagar, mas a diferença continua CLARA
+    // ciclo a cada 15 fases fica um pouco mais desafiador mas ainda óbvio
+    let ciclo = Math.floor((fase - 1) / 15);
+    let forca = 1.0;
+    if (ciclo === 0) forca = 1.0;      // diferenças enormes
+    else if (ciclo === 1) forca = 0.85; // ainda muito visível
+    else if (ciclo === 2) forca = 0.7;
+    else forca = 0.6;                  // máximo de sutileza, mas nunca menor que 0.6
 
-function getCiclo(f) {
-  return Math.floor((f - 1) / 20);
-}
-
-function getIntensidade(f) {
-  const ciclo = getCiclo(f);
-  // intensidade diminui gradativamente: 1.0 → 0.7 → 0.5 → 0.4
-  if (ciclo === 0) return 1.0;
-  if (ciclo === 1) return 0.75;
-  if (ciclo === 2) return 0.55;
-  return 0.4;
-}
-
-// Estilos de diferença com valores ampliados para serem bem visíveis
-function aplicarDiferenca(faseAtual) {
-  const intens = getIntensidade(faseAtual);
-  const tipoIndex = (faseAtual - 1) % 5;
-  // tipos variados
-  // 0: deslocamento horizontal
-  // 1: escala reduzida
-  // 2: espelhamento + leve rotação
-  // 3: rotação acentuada
-  // 4: opacidade + leve desfoque simulado com escala?
-  
-  // Valores base (máximo para ciclo fácil)
-  let deslocamento = Math.floor(16 * intens);    // px (máx 16px)
-  let escala = 0.85 + (1 - intens) * 0.12;      // varia entre 0.85 ~ 0.97
-  let rotacao = 12 * intens;                     // graus (máx 12°)
-  let opacidade = 0.7 + (1 - intens) * 0.2;      // 0.7 ~ 0.9
-  
-  // garantir limites mínimos pra não sumir a diferença
-  deslocamento = Math.max(6, deslocamento);
-  escala = Math.min(0.96, Math.max(0.80, escala));
-  rotacao = Math.max(4, rotacao);
-  opacidade = Math.min(0.92, Math.max(0.65, opacidade));
-  
-  switch(tipoIndex) {
-    case 0: // deslocamento horizontal (esquerda ou direita)
-      // alterna sinal a cada fase pra não ficar previsível
-      const sinal = (Math.floor(faseAtual / 3) % 2 === 0) ? -1 : 1;
-      return `translateX(${sinal * deslocamento}px)`;
-    case 1: // escala menor (encolhido)
-      return `scale(${escala})`;
-    case 2: // espelho + leve torção (bem visível)
-      return `scaleX(-1) scale(0.96) rotate(${rotacao * 0.7}deg)`;
-    case 3: // rotação pura (destaca bem)
-      return `rotate(${rotacao}deg)`;
-    case 4: // opacidade + pequeno deslocamento (sutil mas perceptível)
-      const deslocLeve = deslocamento * 0.5;
-      return `translateX(${deslocLeve}px) opacity(${opacidade})`;
-    default:
-      return `translateX(-12px)`;
-  }
-}
-
-// Tempo base por fase (diminui com avanço, mas nunca menos que 7s)
-function tempoBase(faseAtual) {
-  let t = 22 - Math.floor((faseAtual - 1) * 0.3);
-  t = Math.max(7, Math.min(22, t));
-  return t - penalidade;
-}
-
-// Inicializar rodada
-function iniciarRodada() {
-  bloqueado = false;
-  elFase.textContent = fase;
-  elPontos.textContent = pontos;
-  elVidas.textContent = '❤️'.repeat(vidas) + '🤍'.repeat(3 - vidas);
-  
-  const cicloAtual = getCiclo(fase) + 1;
-  let dificuldadeTexto = '';
-  if (cicloAtual === 1) dificuldadeTexto = '🌱 fácil';
-  else if (cicloAtual === 2) dificuldadeTexto = '⚡ médio';
-  else if (cicloAtual === 3) dificuldadeTexto = '🔥 difícil';
-  else dificuldadeTexto = '🌀 insano';
-  elInfo.textContent = `🔎 ciclo ${cicloAtual} • ${dificuldadeTexto} • toque na diferente`;
-  
-  // Escolher emoji base da fase (ciclo pelos emojis)
-  const emojiBase = emojis[(fase - 1) % emojis.length];
-  // Escolher aleatoriamente qual sticker será o diferente (0,1,2)
-  indiceDiferente = Math.floor(Math.random() * 3);
-  
-  // Obter transformação para a diferença
-  const estiloDif = aplicarDiferenca(fase);
-  
-  // Resetar todos os stickers
-  stickers.forEach((sticker, i) => {
-    const span = sticker.querySelector('span');
-    sticker.classList.remove('correct', 'wrong');
-    span.textContent = emojiBase;
-    span.style.transform = '';
-    span.style.opacity = '';
-    // remover qualquer estilo inline residual
-    if (span.hasAttribute('style')) {
-      span.removeAttribute('style');
+    // Tipos de diferenças divertidas (todas muito perceptíveis)
+    const tipos = [
+      'DESLOCAR',     // andar para o lado
+      'ENCOLHER',     // ficar bem menor
+      'GIRAR',        // rodar bastante
+      'ESPELHAR',     // imagem invertida
+      'FLUTUAR'       // subir/descer + opacidade
+    ];
+    let tipo = tipos[(fase - 1) % tipos.length];
+    
+    // valores mínimos altos para crianças
+    let deslocX = Math.floor(18 * forca);
+    let escala = 0.65 + (1 - forca) * 0.2;  // entre 0.65 e 0.85
+    let rotacao = 18 * forca;               // entre 10° e 18°
+    let opacidade = 0.55 + (1 - forca) * 0.2; // entre 0.55 e 0.75
+    
+    // garantias de que a diferença NUNCA suma
+    deslocX = Math.max(14, deslocX);
+    escala = Math.min(0.85, Math.max(0.65, escala));
+    rotacao = Math.max(12, rotacao);
+    opacidade = Math.max(0.55, opacidade);
+    
+    // inverte sinal às vezes
+    const sinal = (Math.floor(fase / 2) % 2 === 0) ? 1 : -1;
+    
+    switch(tipo) {
+      case 'DESLOCAR':
+        return `transform: translateX(${sinal * deslocX}px);`;
+      case 'ENCOLHER':
+        return `transform: scale(${escala});`;
+      case 'GIRAR':
+        return `transform: rotate(${sinal * rotacao}deg);`;
+      case 'ESPELHAR':
+        return `transform: scaleX(-1) scale(0.92);`; // espelhado + leve redução
+      case 'FLUTUAR':
+        return `transform: translateY(-${deslocX * 0.7}px); opacity: ${opacidade};`;
+      default:
+        return `transform: translateX(${deslocX}px);`;
     }
-  });
-  
-  // Aplicar diferença no sticker escolhido
-  const stickerDif = stickers[indiceDiferente];
-  const spanDif = stickerDif.querySelector('span');
-  
-  // verificar se o estilo contém opacidade separada (caso tipo 4)
-  if (estiloDif.includes('opacity')) {
-    const match = estiloDif.match(/opacity\(([\d.]+)\)/);
-    if (match) {
-      const opVal = parseFloat(match[1]);
-      spanDif.style.opacity = opVal;
-      // remover a parte opacity da string para não conflitar
-      let transformOnly = estiloDif.replace(/opacity\([\d.]+\)/, '').trim();
-      if (transformOnly === '') transformOnly = 'translateX(0)';
-      spanDif.style.transform = transformOnly;
-    } else {
-      spanDif.style.transform = estiloDif;
-    }
-  } else {
-    spanDif.style.transform = estiloDif;
-    spanDif.style.opacity = '1';
   }
-  
-  // Configurar temporizador
-  const tempoLimite = Math.max(5, tempoBase(fase));
-  let tempoRestante = tempoLimite;
-  elTempo.textContent = `${tempoRestante}s`;
-  elBarra.style.width = '100%';
-  
-  if (timerInterval) clearInterval(timerInterval);
-  const inicio = Date.now();
-  
-  timerInterval = setInterval(() => {
-    if (bloqueado) return; // se já clicou, não atualiza mais
-    const decorrido = (Date.now() - inicio) / 1000;
-    let rest = tempoLimite - decorrido;
-    if (rest <= 0) {
-      clearInterval(timerInterval);
-      if (!bloqueado) {
-        erroTempo("Tempo esgotado!");
+
+  // Calcula o tempo base com penalidade (sempre entre 8 e 18 segundos)
+  function obterTempoLimite() {
+    let base = 18 - Math.floor((faseAtual - 1) * 0.2);
+    if (base < 8) base = 8;
+    let comPenalidade = base - penalidadeSegundos;
+    if (comPenalidade < 5) comPenalidade = 5;
+    return Math.floor(comPenalidade);
+  }
+
+  // Atualizar interface das vidas
+  function atualizarVidasUI() {
+    vidasEl.textContent = vidas;
+  }
+
+  // Finalizar rodada com erro (criança errou ou tempo acabou)
+  function finalizarComErro(motivo) {
+    if (jogoBloqueado) return;
+    jogoBloqueado = true;
+    if (timerIntervalo) clearInterval(timerIntervalo);
+    
+    // mostrar qual era a correta e marcar as erradas
+    stickersDivs.forEach((div, idx) => {
+      if (idx === indiceDiferente) {
+        div.classList.add('correct');
+      } else {
+        div.classList.add('wrong');
       }
-    } else {
-      const percent = (rest / tempoLimite) * 100;
-      elBarra.style.width = `${percent}%`;
-      elTempo.textContent = `${Math.ceil(rest)}s`;
+    });
+    
+    vidas--;
+    penalidadeSegundos += 2; // erro aumenta penalidade
+    atualizarVidasUI();
+    
+    if (vidas <= 0) {
+      // Game Over
+      setTimeout(() => {
+        document.getElementById('modalTitle').textContent = '💔 FIM DE JOGO 💔';
+        document.getElementById('modalMessage').innerHTML = `${motivo}<br>⭐ Pontuação final: ${pontos} pontos<br>✨ Você chegou à fase ${faseAtual}`;
+        document.getElementById('gameOverlay').style.display = 'grid';
+      }, 500);
+      return;
     }
-  }, 60);
-}
-
-// AÇÃO DE ACERTO
-function acertou(sticker) {
-  if (bloqueado) return;
-  bloqueado = true;
-  clearInterval(timerInterval);
-  
-  sticker.classList.add('correct');
-  pontos += 10;
-  penalidade = Math.max(0, penalidade - 1); // reduz penalidade ao acertar
-  elPontos.textContent = pontos;
-  
-  // feedback sonoro visual (sem áudio, apenas classe)
-  setTimeout(() => {
-    fase++;
-    iniciarRodada();
-  }, 360);
-}
-
-// AÇÃO DE ERRO (comum ou tempo)
-function erroMotivo(motivo) {
-  if (bloqueado) return;
-  bloqueado = true;
-  clearInterval(timerInterval);
-  
-  vidas--;
-  penalidade += 2; // cada erro aumenta penalidade de tempo
-  
-  // destacar qual era a correta e as erradas
-  stickers.forEach((st, idx) => {
-    if (idx === indiceDiferente) {
-      st.classList.add('correct');
-    } else {
-      st.classList.add('wrong');
-    }
-  });
-  
-  // atualizar visual de vidas
-  elVidas.textContent = '❤️'.repeat(vidas) + '🤍'.repeat(3 - vidas);
-  
-  if (vidas <= 0) {
-    // GAME OVER
+    
+    // Recomeça a mesma fase após pequeno delay
     setTimeout(() => {
-      modalTitulo.textContent = '💀 GAME OVER 💀';
-      modalMsg.textContent = `${motivo} na fase ${fase}. Pontuação final: ${pontos} ⭐`;
-      overlay.style.display = 'grid';
-    }, 400);
-    return;
+      iniciarFase();
+    }, 700);
   }
-  
-  // Se ainda tem vidas, recomeça a fase atual com penalidade
-  setTimeout(() => {
-    iniciarRodada();
-  }, 650);
-}
 
-function erroTempo(msg) {
-  erroMotivo(msg);
-}
+  // Ação de acertar a figurinha diferente
+  function acertar(stickerDiv, idx) {
+    if (jogoBloqueado) return;
+    if (idx !== indiceDiferente) return;
+    
+    jogoBloqueado = true;
+    if (timerIntervalo) clearInterval(timerIntervalo);
+    
+    stickerDiv.classList.add('correct');
+    pontos += 10;
+    penalidadeSegundos = Math.max(0, penalidadeSegundos - 1);
+    pontosEl.textContent = pontos;
+    
+    // Avança para a próxima fase
+    setTimeout(() => {
+      faseAtual++;
+      iniciarFase();
+    }, 400);
+  }
 
-// Eventos dos stickers
-stickers.forEach((sticker, indice) => {
-  sticker.addEventListener('click', () => {
-    if (bloqueado) return;
-    if (indice === indiceDiferente) {
-      acertou(sticker);
-    } else {
-      erroMotivo('Você errou!');
+  // Iniciar uma nova fase (configurar a diferença e o temporizador)
+  function iniciarFase() {
+    // Resetar bloqueio e estilos dos stickers
+    jogoBloqueado = false;
+    stickersDivs.forEach(div => {
+      div.classList.remove('correct', 'wrong');
+    });
+    
+    // Atualizar textos da interface
+    faseEl.textContent = faseAtual;
+    pontosEl.textContent = pontos;
+    atualizarVidasUI();
+    
+    // Escolher emoji da fase (baseado na fase)
+    const indiceEmoji = (faseAtual - 1) % emojis.length;
+    const emojiBase = emojis[indiceEmoji];
+    
+    // Definir qual sticker será o diferente (0,1,2)
+    indiceDiferente = Math.floor(Math.random() * 3);
+    
+    // Aplicar o mesmo emoji em todos os 3 stickers
+    for (let i = 0; i < sticksElements.length; i++) {
+      sticksElements[i].textContent = emojiBase;
+      // Remover qualquer estilo inline residual
+      sticksElements[i].style.cssText = '';
     }
+    
+    // Aplicar a diferença APENAS no sticker diferente
+    const estiloDiferenciado = gerarEstiloDiferente(faseAtual);
+    const stickerAlvo = sticksElements[indiceDiferente];
+    // estilos inline diretos (sem conflito)
+    stickerAlvo.style.cssText = estiloDiferenciado;
+    
+    // garantir que o transform e opacity coexistam
+    if (!estiloDiferenciado.includes('opacity')) {
+      stickerAlvo.style.opacity = '1';
+    }
+    
+    // Dica de dificuldade na parte inferior
+    let cicloAtual = Math.floor((faseAtual - 1) / 15) + 1;
+    if (cicloAtual === 1) dicaEl.innerHTML = '🔍 FÁCIL - A DIFERENÇA É BEM GRANDE! 🔍';
+    else if (cicloAtual === 2) dicaEl.innerHTML = '⚡ MÉDIO - AINDA DÁ PRA VER BEM A DIFERENÇA ⚡';
+    else if (cicloAtual === 3) dicaEl.innerHTML = '🔥 DIFÍCIL - OLHE COM CUIDADO, MAS DÁ PRA VER! 🔥';
+    else dicaEl.innerHTML = '🌀 INSANO - FOCO TOTAL, A FIGURA DIFERENTE EXISTE! 🌀';
+    
+    // Configurar temporizador
+    const tempoMaximo = obterTempoLimite();
+    tempoRestante = tempoMaximo;
+    timerDisplay.textContent = `${tempoRestante}s`;
+    timerBar.style.width = '100%';
+    
+    if (timerIntervalo) clearInterval(timerIntervalo);
+    const inicio = Date.now();
+    
+    timerIntervalo = setInterval(() => {
+      if (jogoBloqueado) return;
+      const decorrido = (Date.now() - inicio) / 1000;
+      let restante = tempoMaximo - decorrido;
+      if (restante <= 0) {
+        clearInterval(timerIntervalo);
+        if (!jogoBloqueado) {
+          finalizarComErro('⏰ TEMPO ESGOTADO!');
+        }
+      } else {
+        const percent = (restante / tempoMaximo) * 100;
+        timerBar.style.width = `${percent}%`;
+        timerDisplay.textContent = `${Math.ceil(restante)}s`;
+      }
+    }, 80);
+  }
+
+  // Configurar eventos de clique nos stickers
+  stickersDivs.forEach((div, idx) => {
+    div.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (jogoBloqueado) return;
+      if (idx === indiceDiferente) {
+        acertar(div, idx);
+      } else {
+        finalizarComErro('😕 VOCÊ TOCOU NA FIGURINHA ERRADA!');
+      }
+    });
   });
-});
 
-// Reiniciar jogo completo (após game over)
-btnReiniciar.addEventListener('click', () => {
-  overlay.style.display = 'none';
-  // reset completo
-  fase = 1;
-  pontos = 0;
-  vidas = 3;
-  penalidade = 0;
-  bloqueado = false;
-  if (timerInterval) clearInterval(timerInterval);
-  iniciarRodada();
-});
+  // Reiniciar o jogo completo
+  function reiniciarJogo() {
+    faseAtual = 1;
+    pontos = 0;
+    vidas = 3;
+    penalidadeSegundos = 0;
+    jogoBloqueado = false;
+    if (timerIntervalo) clearInterval(timerIntervalo);
+    document.getElementById('gameOverlay').style.display = 'none';
+    iniciarFase();
+  }
 
-// Iniciar jogo pela primeira vez
-iniciarRodada();
+  document.getElementById('restartButton').addEventListener('click', reiniciarJogo);
+  
+  // Iniciar jogo pela primeira vez
+  iniciarFase();
 </script>
 </body>
-</html>
+  </html>
