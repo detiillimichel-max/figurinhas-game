@@ -2,68 +2,66 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Ache a Figurinha Diferente</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<title>Ache a Figurinha Diferente - Infinito</title>
 <style>
-  :root { --bg:#0f1220; --card:#1a1f35; --accent:#7cf5c7; --danger:#ff6b6b; }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto; background:radial-gradient(1200px 800px at 50% -10%,#1e2547,#0f1220);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
- .wrap{width:100%;max-width:420px}
-  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
- .pill{background:#141832;padding:8px 12px;border-radius:999px;font-weight:600;font-size:14px;border:1px solid #2a315c}
- .hearts{font-size:20px;letter-spacing:2px}
- .board{background:var(--card);border:1px solid #2a315c;border-radius:24px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
- .top{display:flex;justify-content:center;margin-bottom:16px}
- .bottom{display:flex;justify-content:space-between;gap:16px}
- .sticker{width:100%;aspect-ratio:1/1;background:#0c1022;border:2px solid #2a315c;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:72px;cursor:pointer;user-select:none;transition:transform.08s ease, border-color.2s;position:relative}
- .top.sticker{width:46%}
- .sticker:active{transform:scale(.96)}
- .sticker.correct{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,245,199,.25) inset}
- .sticker.wrong{border-color:var(--danger);box-shadow:0 0 0 3px rgba(255,107,107,.25) inset;animation:shake.3s}
-  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
- .timer{height:8px;background:#0c1022;border-radius:999px;overflow:hidden;margin:14px 0 6px;border:1px solid #2a315c}
- .bar{height:100%;width:100%;background:linear-gradient(90deg,#7cf5c7,#4dd0e1);transition:width.2s linear}
- .meta{display:flex;justify-content:space-between;font-size:13px;opacity:.8;margin-bottom:8px}
- .footer{text-align:center;margin-top:14px;font-size:13px;opacity:.7}
- .overlay{position:fixed;inset:0;background:rgba(5,7,15,.85);display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
- .modal{background:#161b31;border:1px solid #2a315c;border-radius:20px;padding:24px;max-width:340px;width:100%;text-align:center}
- .btn{margin-top:14px;background:var(--accent);color:#06221a;border:0;padding:12px 16px;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer;width:100%}
-  h1{font-size:20px;margin:0 0 6px}
-  p{margin:6px 0}
+:root{--bg:#0f1220;--card:#1a1f35;--accent:#7cf5c7;--danger:#ff6b6b}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Roboto;background:radial-gradient(1200px 800px at 50% -10%,#1e2547,#0f1220);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.wrap{width:100%;max-width:420px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.pill{background:#141832;padding:8px 12px;border-radius:999px;font-weight:600;font-size:14px;border:1px solid #2a315c}
+.hearts{font-size:20px}.board{background:var(--card);border:1px solid #2a315c;border-radius:24px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.top{display:flex;justify-content:center;margin-bottom:16px}.bottom{display:flex;justify-content:space-between;gap:16px}
+.sticker{width:100%;aspect-ratio:1/1;background:#0c1022;border:2px solid #2a315c;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:72px;cursor:pointer;user-select:none;transition:.08s}
+.top.sticker{width:46%}.sticker:active{transform:scale(.96)}.sticker.correct{border-color:var(--accent)}.sticker.wrong{border-color:var(--danger);animation:shake.3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.timer{height:8px;background:#0c1022;border-radius:999px;overflow:hidden;margin:14px 0 6px;border:1px solid #2a315c}
+.bar{height:100%;width:100%;background:linear-gradient(90deg,#7cf5c7,#4dd0e1);transition:width.2s}
+.meta{display:flex;justify-content:space-between;font-size:13px;opacity:.8;margin-bottom:8px}
+.footer{text-align:center;margin-top:14px;font-size:12px;opacity:.7}
+.overlay{position:fixed;inset:0;background:rgba(5,7,15,.85);display:none;align-items:center;justify-content:center;padding:20px}
+.modal{background:#161b31;border:1px solid #2a315c;border-radius:20px;padding:24px;max-width:340px;width:100%;text-align:center}
+.btn{margin-top:14px;background:var(--accent);color:#06221a;border:0;padding:12px;border-radius:12px;font-weight:700;font-size:16px;width:100%}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <div class="pill">Fase <span id="fase">1</span>/20</div>
-    <div class="pill hearts" id="hearts">❤️❤️❤️</div>
-    <div class="pill">⭐ <span id="score">0</span></div>
-  </header>
-  <div class="board">
-    <div class="meta"><span>Encontre a diferente</span><span id="tempoTxt">20s</span></div>
-    <div class="timer"><div class="bar" id="bar"></div></div>
-    <div class="top"><div class="sticker" data-idx="0"><span></span></div></div>
-    <div class="bottom"><div class="sticker" data-idx="1"><span></span></div><div class="sticker" data-idx="2"><span></span></div></div>
-  </div>
-  <div class="footer">3 erros = Game Over • tempo diminui a cada erro</div>
+<header><div class="pill">Fase <span id="fase">1</span></div><div class="pill hearts" id="hearts">❤️❤️❤️</div><div class="pill">⭐<span id="score">0</span></div></header>
+<div class="board"><div class="meta"><span>Ache a diferente</span><span id="tempoTxt">20s</span></div><div class="timer"><div class="bar" id="bar"></div></div>
+<div class="top"><div class="sticker" data-idx="0"><span></span></div></div>
+<div class="bottom"><div class="sticker" data-idx="1"><span></span></div><div class="sticker" data-idx="2"><span></span></div></div></div>
+<div class="footer">Ciclo 1: fases 1-20 • Ciclo 2: 21-40 (mais difícil) • e assim por diante</div>
 </div>
-<div class="overlay" id="overlay"><div class="modal"><h1 id="modalTitle">Game Over</h1><p id="modalText">Você fez 0 pontos.</p><button class="btn" id="restartBtn">Jogar novamente</button></div></div>
+<div class="overlay" id="overlay"><div class="modal"><h1 id="modalTitle"></h1><p id="modalText"></p><button class="btn" id="restartBtn">Continuar</button></div></div>
 <script>
-const basesOriginais=['🐶','🍎','⚽','🚗','🌻','🎸','🍕','🐱','🦋','🚀','🐢','🍩','🎲','🌙','🐸','📷','🎈','🧩','🍉','🦊','🐙','🍔','🎯','🌵'];
-let bases=[...basesOriginais];let fase=1;let score=0;let vidas=3;let penalidadeTempo=0;let tempoBase=20;let tempoRestante=20;let timer=null;let diferenteIdx=0;let travado=false;
-const elFase=document.getElementById('fase');const elScore=document.getElementById('score');const elHearts=document.getElementById('hearts');const elBar=document.getElementById('bar');const elTempo=document.getElementById('tempoTxt');const stickers=[...document.querySelectorAll('.sticker')];const overlay=document.getElementById('overlay');const modalTitle=document.getElementById('modalTitle');const modalText=document.getElementById('modalText');const restartBtn=document.getElementById('restartBtn');
-function embaralhar(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
-function tempoDaFase(f){const t=20-((f-1)*(10/19));return Math.round(t)}
-function estiloDiferenca(f){if(f<=3)return{tipo:'emojiDiferente'};if(f<=6)return{tipo:'filtro',css:'hue-rotate(90deg) saturate(1.3)'};if(f<=9)return{tipo:'transform',css:'rotate(14deg)'};if(f<=13)return{tipo:'transform',css:'scale(0.86)'};const leve=6+Math.floor(Math.random()*6);const brilho=0.92+Math.random()*0.04;return{tipo:'filtro',css:`hue-rotate(${leve}deg) brightness(${brilho.toFixed(2)})`}}
-function atualizarHearts(){elHearts.textContent='❤️'.repeat(vidas)+'🤍'.repeat(3-vidas)}
-function iniciarFase(){travado=false;elFase.textContent=fase;elScore.textContent=score;atualizarHearts();tempoBase=Math.max(5,tempoDaFase(fase)-penalidadeTempo);tempoRestante=tempoBase;elTempo.textContent=tempoBase+'s';elBar.style.width='100%';elBar.style.background='linear-gradient(90deg,#7cf5c7,#4dd0e1)';const base=bases[(fase-1)%bases.length];const diffEstilo=estiloDiferenca(fase);diferenteIdx=Math.floor(Math.random()*3);stickers.forEach((st,idx)=>{const span=st.querySelector('span');st.className='sticker';span.style.filter='';span.style.transform='';span.textContent=base;if(idx===diferenteIdx){if(diffEstilo.tipo==='emojiDiferente'){let outro=bases[(bases.indexOf(base)+3)%bases.length];if(outro===base)outro='⭐';span.textContent=outro}else if(diffEstilo.tipo==='filtro'){span.style.filter=diffEstilo.css}else if(diffEstilo.tipo==='transform'){span.style.transform=diffEstilo.css}}});clearInterval(timer);const inicio=Date.now();timer=setInterval(()=>{const decorrido=(Date.now()-inicio)/1000;tempoRestante=Math.max(0,tempoBase-decorrido);elTempo.textContent=Math.ceil(tempoRestante)+'s';elBar.style.width=(tempoRestante/tempoBase*100)+'%';if(tempoRestante<=3)elBar.style.background='linear-gradient(90deg,#ff6b6b,#ffa56b)';if(tempoRestante<=0){clearInterval(timer);erro('Tempo esgotado!')}},100)}
-function acerto(st){if(travado)return;travado=true;clearInterval(timer);st.classList.add('correct');score+=fase*10;penalidadeTempo=0;setTimeout(()=>{fase++;if(fase>20){fase=1;bases=embaralhar([...basesOriginais]);mostrarModal('Ciclo completo!',`Você zerou as 20 fases! Pontuação: ${score}. Vamos trocar as figurinhas e continuar.`);setTimeout(()=>{overlay.style.display='none';iniciarFase()},1800)}else{iniciarFase()}},400)}
-function erro(motivo){if(travado)return;travado=true;clearInterval(timer);vidas--;atualizarHearts();stickers[diferenteIdx].classList.add('correct');stickers.forEach((s,i)=>{if(i!==diferenteIdx)s.classList.add('wrong')});penalidadeTempo+=2;setTimeout(()=>{if(vidas<=0){gameOver(motivo)}else{iniciarFase()}},800)}
-function gameOver(motivo){modalTitle.textContent='Game Over';modalText.textContent=`${motivo} Fase ${fase}. Pontuação final: ${score}.`;overlay.style.display='flex'}
-function mostrarModal(titulo,texto){modalTitle.textContent=titulo;modalText.textContent=texto;overlay.style.display='flex'}
-stickers.forEach((st,idx)=>{st.addEventListener('click',()=>{if(travado)return;if(idx===diferenteIdx)acerto(st);else erro('Errou a figurinha!')})});
-restartBtn.addEventListener('click',()=>{overlay.style.display='none';fase=1;score=0;vidas=3;penalidadeTempo=0;bases=embaralhar([...basesOriginais]);iniciarFase()});
-bases=embaralhar(bases);iniciarFase();
+const basesOriginais=['🐶','🍎','⚽','🚗','🌻','🎸','🍕','🐱','🦋','🚀','🐢','🍩','🎲','🌙','🐸','📷','🎈','🧩','🍉','🦊','🐙','🍔','🎯','🌵','🦄','🍒','🏀','🚲'];
+let bases=[...basesOriginais];let fase=1,score=0,vidas=3,penalidade=0,timer=null,diferenteIdx=0,travado=false;
+const elFase=document.getElementById('fase'),elScore=document.getElementById('score'),elHearts=document.getElementById('hearts'),elBar=document.getElementById('bar'),elTempo=document.getElementById('tempoTxt'),stickers=[...document.querySelectorAll('.sticker')],overlay=document.getElementById('overlay'),modalTitle=document.getElementById('modalTitle'),modalText=document.getElementById('modalText'),restartBtn=document.getElementById('restartBtn');
+
+function embaralhar(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function tempoBase(f){const t=20-Math.min(10,Math.floor((f-1)*0.45));return Math.max(8,t)} // 20s até ~8s no infinito
+function diff(f){
+ const ciclo=Math.floor((f-1)/20); const pos=((f-1)%20)+1; const intens=Math.max(0.25,1/(ciclo+1)); // nunca zera
+ const spanStyle='inline-block';
+ if(pos<=3){return{tipo:'emoji',style:spanStyle}}
+ if(pos<=6){const r=Math.max(3,8*intens);return{tipo:'transform',css:`rotate(${r}deg) scale(${1-0.04*intens})`,style:spanStyle}}
+ if(pos<=9){const r=Math.max(2,5*intens);return{tipo:'transform',css:`rotate(${r}deg)`,style:spanStyle}}
+ if(pos<=13){const s=Math.max(0.94,1-0.06*intens);return{tipo:'transform',css:`scale(${s})`,style:spanStyle}}
+ const op=Math.max(0.88,1-0.08*intens);const sc=Math.max(0.96,1-0.025*intens);return{tipo:'filtro',css:`opacity(${op})`,extra:`scale(${sc})`,style:spanStyle}
+}
+function atualizar(){elHearts.textContent='❤️'.repeat(vidas)+'🤍'.repeat(3-vidas);elFase.textContent=fase;elScore.textContent=score}
+function iniciar(){
+ travado=false;atualizar();const tb=Math.max(5,tempoBase(fase)-penalidade);elTempo.textContent=tb+'s';elBar.style.width='100%';elBar.style.background='linear-gradient(90deg,#7cf5c7,#4dd0e1)';
+ const base=bases[(fase-1)%bases.length];const d=diff(fase);diferenteIdx=Math.floor(Math.random()*3);
+ stickers.forEach((st,i)=>{const sp=st.querySelector('span');st.className='sticker';sp.style='';sp.style.display=d.style;sp.textContent=base;
+   if(i===diferenteIdx){if(d.tipo==='emoji'){let outro=bases[(bases.indexOf(base)+7)%bases.length];if(outro===base)outro='⭐';sp.textContent=outro}else if(d.tipo==='transform'){sp.style.transform=d.css}else{sp.style.opacity=d.css.split('(')[1].split(')')[0];sp.style.transform=d.extra}}
+ });
+ clearInterval(timer);const ini=Date.now();timer=setInterval(()=>{const dec=(Date.now()-ini)/1000;const rest=Math.max(0,tb-dec);elTempo.textContent=Math.ceil(rest)+'s';elBar.style.width=rest/tb*100+'%';if(rest<=3)elBar.style.background='linear-gradient(90deg,#ff6b6b,#ffa56b)';if(rest<=0){clearInterval(timer);erro('Tempo!')}},100);
+}
+function acerto(st){if(travado)return;travado=true;clearInterval(timer);st.classList.add('correct');score+=fase*5;penalidade=0;setTimeout(()=>{fase++;if(fase%20===1){bases=embaralhar([...basesOriginais]);modalTitle.textContent=`Ciclo ${Math.ceil(fase/20)}`;modalText.textContent=`Você completou ${fase-1} fases! Agora as diferenças ficam menores.`;overlay.style.display='flex';setTimeout(()=>{overlay.style.display='none';iniciar()},1500)}else{iniciar()}},350)}
+function erro(m){if(travado)return;travado=true;clearInterval(timer);vidas--;atualizar();stickers[diferenteIdx].classList.add('correct');stickers.forEach((s,i)=>{if(i!==diferenteIdx)s.classList.add('wrong')});penalidade+=2;setTimeout(()=>{if(vidas<=0){modalTitle.textContent='Game Over';modalText.textContent=`${m} Fase ${fase}. Score: ${score}`;overlay.style.display='flex';restartBtn.textContent='Recomeçar'}else{iniciar()}},700)}
+stickers.forEach((st,i)=>st.onclick=()=>i===diferenteIdx?acerto(st):erro('Errou!'));
+restartBtn.onclick=()=>{overlay.style.display='none';if(vidas<=0){fase=1;score=0;vidas=3;penalidade=0;bases=embaralhar([...basesOriginais])}iniciar()};
+embaralhar(bases);iniciar();
 </script>
 </body>
 </html>
