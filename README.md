@@ -10,7 +10,7 @@ Jogo de achar a figurinha diferente — 3 figurinhas na tela (1 em cima, 2 embai
 - Se errar, a mesma fase repete mas com 2 segundos a menos.
 - 3 erros = Game Over.
 
-## Lógica das 20 fases
+## Lógica das fases
 - **Fases 1-3:** diferença óbvia (emoji totalmente diferente)
 - **Fases 4-6:** ligeiramente diferente (mudança de cor/hue)
 - **Fases 7-9:** quase iguais (rotação leve)
