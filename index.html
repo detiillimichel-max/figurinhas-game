@@ -2,66 +2,84 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
-<title>Ache a Figurinha Diferente - Infinito</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Figurinha Diferente - 3 Iguais</title>
 <style>
-:root{--bg:#0f1220;--card:#1a1f35;--accent:#7cf5c7;--danger:#ff6b6b}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Roboto;background:radial-gradient(1200px 800px at 50% -10%,#1e2547,#0f1220);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
-.wrap{width:100%;max-width:420px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.pill{background:#141832;padding:8px 12px;border-radius:999px;font-weight:600;font-size:14px;border:1px solid #2a315c}
-.hearts{font-size:20px}.board{background:var(--card);border:1px solid #2a315c;border-radius:24px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
-.top{display:flex;justify-content:center;margin-bottom:16px}.bottom{display:flex;justify-content:space-between;gap:16px}
-.sticker{width:100%;aspect-ratio:1/1;background:#0c1022;border:2px solid #2a315c;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:72px;cursor:pointer;user-select:none;transition:.08s}
-.top.sticker{width:46%}.sticker:active{transform:scale(.96)}.sticker.correct{border-color:var(--accent)}.sticker.wrong{border-color:var(--danger);animation:shake.3s}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-.timer{height:8px;background:#0c1022;border-radius:999px;overflow:hidden;margin:14px 0 6px;border:1px solid #2a315c}
-.bar{height:100%;width:100%;background:linear-gradient(90deg,#7cf5c7,#4dd0e1);transition:width.2s}
-.meta{display:flex;justify-content:space-between;font-size:13px;opacity:.8;margin-bottom:8px}
-.footer{text-align:center;margin-top:14px;font-size:12px;opacity:.7}
-.overlay{position:fixed;inset:0;background:rgba(5,7,15,.85);display:none;align-items:center;justify-content:center;padding:20px}
-.modal{background:#161b31;border:1px solid #2a315c;border-radius:20px;padding:24px;max-width:340px;width:100%;text-align:center}
-.btn{margin-top:14px;background:var(--accent);color:#06221a;border:0;padding:12px;border-radius:12px;font-weight:700;font-size:16px;width:100%}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui;background:#0f1220;color:#fff;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:16px}
+.wrap{width:100%;max-width:400px}header{display:flex;justify-content:space-between;margin-bottom:10px}
+.pill{background:#1a1f35;padding:6px 12px;border-radius:999px;font-size:14px;border:1px solid #2a315c}
+.board{background:#1a1f35;border:1px solid #2a315c;border-radius:20px;padding:18px}
+.top{display:flex;justify-content:center;margin-bottom:14px}.bottom{display:flex;gap:14px}
+.sticker{flex:1;aspect-ratio:1;background:#0b1020;border:2px solid #2a315c;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:68px;cursor:pointer}
+.sticker span{display:inline-block;transition:.15s}
+.sticker.correct{border-color:#7cf5c7}.sticker.wrong{border-color:#ff6b6b;animation:shake .3s}
+@keyframes shake{0%,100%{transform:translate(0)}25%{transform:translate(-3px)}75%{transform:translate(3px)}}
+.timer{height:7px;background:#0b1020;border-radius:99px;margin:10px 0;overflow:hidden;border:1px solid #2a315c}
+.bar{height:100%;width:100%;background:#7cf5c7;transition:width .1s linear}
+.meta{display:flex;justify-content:space-between;font-size:12px;opacity:.8}
+.footer{font-size:11px;text-align:center;margin-top:10px;opacity:.6}
+.overlay{position:fixed;inset:0;background:#000c;display:none;place-items:center}
+.modal{background:#1a1f35;padding:20px;border-radius:16px;text-align:center;border:1px solid #2a315c}
+button{background:#7cf5c7;border:0;padding:10px 16px;border-radius:10px;font-weight:700;margin-top:10px}
 </style>
 </head>
 <body>
 <div class="wrap">
-<header><div class="pill">Fase <span id="fase">1</span></div><div class="pill hearts" id="hearts">❤️❤️❤️</div><div class="pill">⭐<span id="score">0</span></div></header>
-<div class="board"><div class="meta"><span>Ache a diferente</span><span id="tempoTxt">20s</span></div><div class="timer"><div class="bar" id="bar"></div></div>
-<div class="top"><div class="sticker" data-idx="0"><span></span></div></div>
-<div class="bottom"><div class="sticker" data-idx="1"><span></span></div><div class="sticker" data-idx="2"><span></span></div></div></div>
-<div class="footer">Ciclo 1: fases 1-20 • Ciclo 2: 21-40 (mais difícil) • e assim por diante</div>
+<header><div class="pill">Fase <b id="fase">1</b></div><div class="pill" id="vidas">❤️❤️❤️</div><div class="pill">⭐<b id="pts">0</b></div></header>
+<div class="board">
+<div class="meta"><span>3 iguais, ache o detalhe</span><span id="tempo">20s</span></div>
+<div class="timer"><div class="bar" id="bar"></div></div>
+<div class="top"><div class="sticker" data-i="0"><span></span></div></div>
+<div class="bottom"><div class="sticker" data-i="1"><span></span></div><div class="sticker" data-i="2"><span></span></div></div>
 </div>
-<div class="overlay" id="overlay"><div class="modal"><h1 id="modalTitle"></h1><p id="modalText"></p><button class="btn" id="restartBtn">Continuar</button></div></div>
+<div class="footer" id="info">Ciclo 1 • diferenças visíveis</div>
+</div>
+<div class="overlay" id="ov"><div class="modal"><h3 id="t"></h3><p id="m"></p><button id="bt">OK</button></div></div>
 <script>
-const basesOriginais=['🐶','🍎','⚽','🚗','🌻','🎸','🍕','🐱','🦋','🚀','🐢','🍩','🎲','🌙','🐸','📷','🎈','🧩','🍉','🦊','🐙','🍔','🎯','🌵','🦄','🍒','🏀','🚲'];
-let bases=[...basesOriginais];let fase=1,score=0,vidas=3,penalidade=0,timer=null,diferenteIdx=0,travado=false;
-const elFase=document.getElementById('fase'),elScore=document.getElementById('score'),elHearts=document.getElementById('hearts'),elBar=document.getElementById('bar'),elTempo=document.getElementById('tempoTxt'),stickers=[...document.querySelectorAll('.sticker')],overlay=document.getElementById('overlay'),modalTitle=document.getElementById('modalTitle'),modalText=document.getElementById('modalText'),restartBtn=document.getElementById('restartBtn');
+const emojis=['🐶','🍎','⚽','🚗','🌻','🎸','🍕','🐱','🦋','🚀','🐢','🍩','🎲','🌙','🐸','📷','🎈','🧩','🍉','🦊'];
+let fase=1,pts=0,vidas=3,pen=0,timer,idxDif=0,lock=false;
+const $f=document.getElementById('fase'),$p=document.getElementById('pts'),$v=document.getElementById('vidas'),$t=document.getElementById('tempo'),$b=document.getElementById('bar'),$info=document.getElementById('info');
+const sticks=[...document.querySelectorAll('.sticker')];
 
-function embaralhar(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function tempoBase(f){const t=20-Math.min(10,Math.floor((f-1)*0.45));return Math.max(8,t)} // 20s até ~8s no infinito
-function diff(f){
- const ciclo=Math.floor((f-1)/20); const pos=((f-1)%20)+1; const intens=Math.max(0.25,1/(ciclo+1)); // nunca zera
- const spanStyle='inline-block';
- if(pos<=3){return{tipo:'emoji',style:spanStyle}}
- if(pos<=6){const r=Math.max(3,8*intens);return{tipo:'transform',css:`rotate(${r}deg) scale(${1-0.04*intens})`,style:spanStyle}}
- if(pos<=9){const r=Math.max(2,5*intens);return{tipo:'transform',css:`rotate(${r}deg)`,style:spanStyle}}
- if(pos<=13){const s=Math.max(0.94,1-0.06*intens);return{tipo:'transform',css:`scale(${s})`,style:spanStyle}}
- const op=Math.max(0.88,1-0.08*intens);const sc=Math.max(0.96,1-0.025*intens);return{tipo:'filtro',css:`opacity(${op})`,extra:`scale(${sc})`,style:spanStyle}
+function ciclo(f){return Math.floor((f-1)/20)} // 0,1,2...
+function intensidade(f){const c=ciclo(f);return Math.max(0.2,1/(c+1))} // nunca zera
+
+function detalhe(f){
+ const inten=intensidade(f);
+ const tipos=['left','menor','espelho','giro','opaco'];
+ const tipo=tipos[f%5];
+ // valores diminuem com o ciclo
+ const left=Math.max(2,8*inten); // px
+ const scale=Math.max(0.96,1-0.06*inten);
+ const giro=Math.max(1.5,6*inten); // deg
+ const opac=Math.max(0.88,1-0.1*inten);
+ if(tipo==='left') return `translateX(-${left}px)`;
+ if(tipo==='menor') return `scale(${scale})`;
+ if(tipo==='espelho') return `scaleX(-1) scale(${0.99})`; // espelha
+ if(tipo==='giro') return `rotate(${giro}deg)`;
+ return `opacity(${opac})`;
 }
-function atualizar(){elHearts.textContent='❤️'.repeat(vidas)+'🤍'.repeat(3-vidas);elFase.textContent=fase;elScore.textContent=score}
+
+function tempo(f){return Math.max(8,20-Math.floor((f-1)*0.35))}
+
 function iniciar(){
- travado=false;atualizar();const tb=Math.max(5,tempoBase(fase)-penalidade);elTempo.textContent=tb+'s';elBar.style.width='100%';elBar.style.background='linear-gradient(90deg,#7cf5c7,#4dd0e1)';
- const base=bases[(fase-1)%bases.length];const d=diff(fase);diferenteIdx=Math.floor(Math.random()*3);
- stickers.forEach((st,i)=>{const sp=st.querySelector('span');st.className='sticker';sp.style='';sp.style.display=d.style;sp.textContent=base;
-   if(i===diferenteIdx){if(d.tipo==='emoji'){let outro=bases[(bases.indexOf(base)+7)%bases.length];if(outro===base)outro='⭐';sp.textContent=outro}else if(d.tipo==='transform'){sp.style.transform=d.css}else{sp.style.opacity=d.css.split('(')[1].split(')')[0];sp.style.transform=d.extra}}
- });
- clearInterval(timer);const ini=Date.now();timer=setInterval(()=>{const dec=(Date.now()-ini)/1000;const rest=Math.max(0,tb-dec);elTempo.textContent=Math.ceil(rest)+'s';elBar.style.width=rest/tb*100+'%';if(rest<=3)elBar.style.background='linear-gradient(90deg,#ff6b6b,#ffa56b)';if(rest<=0){clearInterval(timer);erro('Tempo!')}},100);
+ lock=false;$f.textContent=fase;$p.textContent=pts;$v.textContent='❤️'.repeat(vidas)+'🤍'.repeat(3-vidas);
+ const c=ciclo(fase)+1;$info.textContent=`Ciclo ${c} • ${c===1?'fácil':c===2?'médio':c===3?'difícil':'insano'}`;
+ const base=emojis[(fase-1)%emojis.length]; idxDif=Math.floor(Math.random()*3);
+ const tf=detalhe(fase);
+ sticks.forEach((s,i)=>{const sp=s.querySelector('span');s.className='sticker';sp.textContent=base;sp.style.transform='';sp.style.opacity='1';if(i===idxDif){sp.style.transform=tf; if(tf.includes('opacity'))sp.style.opacity=tf.match(/[\d.]+/)[0]}});
+ const tb=Math.max(5,tempo(fase)-pen);let rest=tb;$t.textContent=tb+'s';$b.style.width='100%';
+ clearInterval(timer);const ini=Date.now();
+ timer=setInterval(()=>{rest=Math.max(0,tb-(Date.now()-ini)/1000);$t.textContent=Math.ceil(rest)+'s';$b.style.width=rest/tb*100+'%';if(rest<=0){clearInterval(timer);erro('Tempo')}},100);
 }
-function acerto(st){if(travado)return;travado=true;clearInterval(timer);st.classList.add('correct');score+=fase*5;penalidade=0;setTimeout(()=>{fase++;if(fase%20===1){bases=embaralhar([...basesOriginais]);modalTitle.textContent=`Ciclo ${Math.ceil(fase/20)}`;modalText.textContent=`Você completou ${fase-1} fases! Agora as diferenças ficam menores.`;overlay.style.display='flex';setTimeout(()=>{overlay.style.display='none';iniciar()},1500)}else{iniciar()}},350)}
-function erro(m){if(travado)return;travado=true;clearInterval(timer);vidas--;atualizar();stickers[diferenteIdx].classList.add('correct');stickers.forEach((s,i)=>{if(i!==diferenteIdx)s.classList.add('wrong')});penalidade+=2;setTimeout(()=>{if(vidas<=0){modalTitle.textContent='Game Over';modalText.textContent=`${m} Fase ${fase}. Score: ${score}`;overlay.style.display='flex';restartBtn.textContent='Recomeçar'}else{iniciar()}},700)}
-stickers.forEach((st,i)=>st.onclick=()=>i===diferenteIdx?acerto(st):erro('Errou!'));
-restartBtn.onclick=()=>{overlay.style.display='none';if(vidas<=0){fase=1;score=0;vidas=3;penalidade=0;bases=embaralhar([...basesOriginais])}iniciar()};
-embaralhar(bases);iniciar();
+
+function acerto(s){if(lock)return;lock=true;clearInterval(timer);s.classList.add('correct');pts+=10;pen=0;setTimeout(()=>{fase++;iniciar()},400)}
+function erro(msg){if(lock)return;lock=true;clearInterval(timer);vidas--;sticks[idxDif].classList.add('correct');sticks.forEach((x,i)=>i!==idxDif&&x.classList.add('wrong'));pen+=2;setTimeout(()=>{if(vidas<=0){document.getElementById('t').textContent='Game Over';document.getElementById('m').textContent=`${msg} na fase ${fase}. Pontos: ${pts}`;document.getElementById('ov').style.display='grid'}else{iniciar()}},600)}
+
+sticks.forEach((s,i)=>s.onclick=()=>i===idxDif?acerto(s):erro('Errou'));
+document.getElementById('bt').onclick=()=>{document.getElementById('ov').style.display='none';if(vidas<=0){fase=1;pts=0;vidas=3;pen=0}iniciar()};
+
+iniciar();
 </script>
 </body>
 </html>
